@@ -1,5 +1,6 @@
 junos-ipint-dnsgen
-========================</br> 
+======================== 
+
 Usage : ./parser.pl sys                              # outputs system section config
         ./parser.pl int                              # outputs interfaces section config
         ./parser.pl int [int-name]                   # outputs specific interface section config
