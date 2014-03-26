@@ -1,7 +1,7 @@
 #/bin/bash
 PERL='/usr/bin/perl'
 PARSER='./parser.pl'
-CONFIG_FILE='access-router-config.txt'
+CONFIG_FILE='config.txt'
 CONFIG_SYS='sys'
 CONFIG_INT='int'
 hostname=`$PERL $PARSER $CONFIG_SYS | grep host-name | sed -e s/host-name// -e s/\;// | tr '\r' ' ' | sed -e s/\ //g`
