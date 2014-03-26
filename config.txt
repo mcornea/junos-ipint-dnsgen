@@ -1,0 +1,243 @@
+system {
+    host-name junos-device;
+    domain-name corporate.net
+    time-zone Europe/Bucharest;
+    default-address-selection;
+    no-redirects;
+    location country-code RO;
+}
+interfaces {
+    ge-1/0/0 {
+        description "Core: R:core1 RP:ge-0/1/4 (ptp, isis)";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 192.168.140.29/31;
+            }
+        }
+    }
+    ge-1/0/1 {
+        description "Cust: R:cust-a RP:ge-1/0/0 (srx240H)";
+        unit 0 {
+            family inet {
+                address 172.16.166.196.61/30;
+            }
+        }                               
+    }
+    ge-1/0/2 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        unit 10 {
+            description "Cust: R:cust-b (data, feed A)";
+            vlan-id 10;
+            family inet {
+                address 192.168.136.184/31;
+            }
+        }
+        unit 1001 {
+            description "Core: R:cust-b (cpe management)";
+            vlan-id 1001;
+            family inet {
+                filter {
+                    output Protect-cpe;
+                }
+                address 10.15.4.6/30;
+            }
+        }
+    }
+    ge-1/0/3 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        unit 10 {
+            description "Cust: R:cust-c (data, feed B)";
+            vlan-id 10;
+            family inet {
+                address 192.168.136.190/31;
+            }
+        }
+        unit 1001 {
+            description "Core: R:cust-c (cpe management)";
+            vlan-id 1001;
+            family inet {
+                filter {                
+                    output Protect-cpe;
+                }
+                address 10.15.4.26/30;
+            }
+        }
+    }
+    ge-1/0/4 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        unit 10 {
+            description "Cust: R:cust-d (bgp, feed A)";
+            vlan-id 10;
+            family inet {
+                address 192.168.140.65/30;
+            }
+        }
+        unit 1001 {
+            description "Core: R:cust-d (cpe management)";
+            vlan-id 1001;
+            family inet {
+                filter {
+                    output Protect-cpe;
+                }
+                address 10.15.4.38/30;
+            }
+        }
+    }
+    ge-1/0/5 {
+        description "Cust: R:cust-e RP:ge-1/0/0 (ptp,bgp,172.16.196.40/29,primary)";
+        unit 0 {
+            family inet {
+                address 172.16.196.33/30;
+            }
+        }
+    }
+    ge-1/0/7 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        unit 10 {
+            description "Cust: R:cust-k RP:Eth11 RI:vl10 (data,tagged)";
+            vlan-id 10;
+            family inet {
+                address 192.168.136.69/30;
+            }
+        }
+        unit 1001 {
+            description "Cust: R:cust-k RP:Eth11 RI:vl-remote (management)";
+            vlan-id 1001;
+            family inet {
+                address 10.15.4.109/30;
+            }
+        }
+    }                                   
+    ge-1/0/8 {
+        description "Core: R:wimax RP:ge-1/0/0 (ptp, isis, srx240)";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 192.168.140.96/31;
+            }
+        }
+    }
+    ge-1/0/9 {
+        description "Core: R:colo-vc2 LI:ae0 RP:ge-2/1/0 RI:aeX (lag member)";
+        gigether-options {
+            802.3ad ae0;
+        }
+    }
+    ge-1/1/0 {
+        description "Core: R:ep9-core2 RP:ge-0/1/4 (ptp, isis)";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 192.168.140.35/31;
+            }
+        }
+    }
+    ge-1/1/2 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        unit 10 {
+            description "Cust: R:cust-f (data)";
+            vlan-id 10;
+            family inet {
+                address 192.168.136.85/30;
+            }
+        }
+        unit 1001 {
+            description "Core: R:cust-f (cpe management)";
+            vlan-id 1001;
+            family inet {
+                address 10.15.4.18/30;
+            }
+        }
+    }
+    ge-1/1/4 {
+        description "Cust: R:cust-g RP:ge-1/0/0 (srx240h, down)";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 192.168.140.113/31;
+            }
+        }
+    }
+    ge-1/1/5 {
+        description "Cust: R:cust-h (ptp,bgp,backup)";
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;
+        unit 10 {
+            description "Cust: R:cust-h (data)";
+            vlan-id 10;
+            family inet {
+                address 192.168.140.129/30;
+            }
+        }
+        unit 1001 {
+            description "Core: R:cust-h (Cpe managemenet)";
+            vlan-id 1001;
+            family inet {
+                address 10.15.4.150/30;
+            }
+        }
+    }
+    ge-1/1/6 {
+        description "Core: R:VoIPTest-CPE RP:ge-1/0/0";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 192.168.140.39/31;
+            }
+        }
+    }
+    ge-1/1/7 {
+        flexible-vlan-tagging;
+        native-vlan-id 10;
+        mtu 9192;                       
+        unit 10 {
+            description "Cust: R:cust-j RP:Eth6 RI:vl10 (data,tagged)";
+            vlan-id 10;
+            family inet {
+                address 192.168.136.181/30;
+            }
+        }
+        unit 1001 {
+            description "Cust: R:cust-j RP:Eth6 RI:vl-remote (management)";
+            vlan-id 1001;
+            family inet {
+                address 10.15.4.158/30;
+            }
+        }
+    }
+    ae0 {
+        description "Core: R:colo-vc2 RI:ae5";
+        aggregated-ether-options {
+            minimum-links 1;
+            link-speed 1g;
+        }
+        unit 0 {
+            family inet {
+                address 192.168.140.126/31;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            description "Core: R:primary routing loopback";
+            family inet {  
+                address 192.168.128.166/32;
+            }
+
+            }
+        }
+    }
+}
