@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-open (CONFIG, 'access-router-config.txt');
+open (CONFIG, 'config.txt');
 my $data = do { local $/; <CONFIG>;};
 close (CONFIG);
 
